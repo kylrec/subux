@@ -3,7 +3,7 @@
 ## Installation
 
 - Select "Clone a repository" in Visual Studio
-- Paste "https://github.com/pc13com20222/FlaskUserDemo.git" into the "Repository location" field
+- Paste "https://github.com/kylrec/sub.git" into the "Repository location" field
 - Select a "Path" where you want to save the project on your computer, and click "Clone"
 - Double-click `FlaskUserDemo.sln` in the side panel to open the Visual Studio solution
 - Navigate to your Python environment in Visual Studio, right click and select "Install from requirements.txt"
