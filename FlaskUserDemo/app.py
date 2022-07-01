@@ -88,6 +88,7 @@ def add_user():
                 return redirect('/')
 
     return render_template('users_add.html')
+
 @app.route('/dashboard')
 def list_users():
     if session['role'] != 'admin':
