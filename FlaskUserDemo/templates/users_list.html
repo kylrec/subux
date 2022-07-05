@@ -21,7 +21,7 @@
             <a href="/delete?id={{ row.user_id }}" onclick="return confirm('Are you sure?')">Delete user</a>
         </td>
         <td>
-            <a href="selsubj?user_id={{ row.user_id }}">View selected subjects</a>
+            <a href="/selsubj?user_id={{ row.user_id }}">View selected subjects</a>
         </td>
     </tr>
     {% endfor %}

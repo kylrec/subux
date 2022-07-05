@@ -136,7 +136,14 @@ def selected_subjects():
                 )
             cursor.execute(sql, values)
             result = cursor.fetchall()
-    return render_template('subjects_selected.html', result=result)
+            sql = """SELECT * FROM users
+                     WHERE users.user_id = %s"""
+            values = (
+                request.args['user_id']
+                )
+            cursor.execute(sql, values)
+            student = cursor.fetchone()
+    return render_template('subjects_selected.html', result=result, student=student)
 
 @app.route ('/delsubj')
 def delete_subjects():
