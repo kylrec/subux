@@ -112,7 +112,9 @@ def list_subjects():
 def add_subject():
     with create_connection() as connection:
         with connection.cursor() as cursor:
-            sql = """INSERT INTO users_subjects (user_id, subject_id) VALUES (%s, %s)"""
+            sql = """INSERT INTO users_subjects 
+                    (user_id, subject_id) 
+                    VALUES (%s, %s)"""
             values = (
                 session['user_id'],
                 request.args['subject_id']
@@ -135,7 +137,6 @@ def selected_subjects():
             cursor.execute(sql, values)
             result = cursor.fetchall()
     return render_template('subjects_selected.html', result=result)
-
 
 @app.route ('/delsubj')
 def delete_subjects():
