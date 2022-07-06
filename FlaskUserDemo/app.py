@@ -215,6 +215,22 @@ def edit_user():
                 result = cursor.fetchone()
         return render_template('users_edit.html', result=result)
 
+@app.route('/checkemail')
+def check_email():
+    with create_connection() as connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM users WHERE email = %s"
+            values = (
+                request.args['email']
+            )
+            cursor.execute(sql, values)
+            result = cursor.fetchone()
+    if result:
+        return jsonify({ 'status': 'Error' })
+    else:
+        return jsonify({ 'status': 'OK' })
+
+
 if __name__ == '__main__':
     import os
 
