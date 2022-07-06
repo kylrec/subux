@@ -14,6 +14,7 @@
     <nav>
         {% if 'logged_in' in session %}
         You are logged in as {{ session.first_name }}
+        <a href="/logout">Log out</a>
         {% else %}
         <a href="/login">Login</a>
         {% endif %}
