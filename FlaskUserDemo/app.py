@@ -223,7 +223,6 @@ def delete_user():
                 connection.commit
     return redirect ('/')
 
-
 @app.route('/edit', methods=['GET', 'POST'])
 def edit_user():
     if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']: 
