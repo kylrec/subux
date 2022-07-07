@@ -5,9 +5,6 @@ app = Flask(__name__)
 from utils import create_connection, setup
 app.register_blueprint(setup)
 
-today = datetime.date.today()
-cutoff = datetime.date(2022, 7, 4)
-
 @app.before_request
 def restrict():
     restricted_pages = [
@@ -133,9 +130,13 @@ def list_subjects():
 
 @app.route('/addsubj')
 def add_subject():
+    
+    today = datetime.date.today()
+    deadline = datetime.date(2022, 7, 9)
+
     with create_connection() as connection:
         with connection.cursor() as cursor:
-            if today < cutoff:
+            if today > deadline:
                 flash("Deadline")
                 return redirect('/')
             else:
@@ -160,8 +161,8 @@ def add_subject():
                         cursor.execute(sql, values)
                         connection.commit()
                     except pymysql.err.IntegrityError:
-                            flash('You have already chosen this subject')
-                            return redirect('/subjects')
+                        flash('You have already chosen this subject')
+                        return redirect('/subjects')
                 else:
                     flash('You have already chosen 5 subjects')
                     return redirect('/subjects')
