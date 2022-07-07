@@ -1,9 +1,15 @@
-import uuid, os, hashlib, pymysql
+import uuid, os, hashlib, pymysql, datetime
 from flask import Flask, request, render_template, redirect, url_for, session, abort, flash, jsonify
 app = Flask(__name__)
 
 from utils import create_connection, setup
 app.register_blueprint(setup)
+
+today = datetime.date.today()
+cutoff = datetime.date(2022, 11, 1)
+print(today)
+print(cutoff)
+print(today < cutoff)
 
 @app.before_request
 def restrict():
@@ -132,19 +138,32 @@ def list_subjects():
 def add_subject():
     with create_connection() as connection:
         with connection.cursor() as cursor:
-            sql = """INSERT INTO users_subjects 
-                    (user_id, subject_id) 
-                    VALUES (%s, %s)"""
+            sql = """SELECT subject_id FROM users_subjects
+                     WHERE users_subjects.user_id = %s"""
             values = (
-                session['user_id'],
-                request.args['subject_id']
+                session['user_id']
             )
-            try:
-                cursor.execute(sql, values)
-                connection.commit()
-            except pymysql.err.IntegrityError:
-                    flash('You have already chosen this subject')
-                    return redirect('/subjects')
+            cursor.execute(sql, values)
+            subject_list = cursor.fetchall()
+            subjects_id_list =[i['subject_id'] for i in subject_list]
+            count = int (len(subject_list))
+            if count < 5:
+                sql = """INSERT INTO users_subjects 
+                        (user_id, subject_id) 
+                        VALUES (%s, %s)"""
+                values = (
+                    session['user_id'],
+                    request.args['subject_id']
+                )
+                try:
+                    cursor.execute(sql, values)
+                    connection.commit()
+                except pymysql.err.IntegrityError:
+                        flash('You have already chosen this subject')
+                        return redirect('/subjects')
+            else:
+                flash('You have already chosen 5 subjects')
+                return redirect('/subjects')
     return redirect ('/selsubj?user_id=' + str(session['user_id']))     
 
 @app.route('/selsubj')
