@@ -18,6 +18,8 @@
 <a href="{{ url_for('list_users') }}">View all users</a>
 {% elif 'logged_in' in session %}
 <a href="{{ url_for('home') }}">Back to home</a>
+<br>
+<a href="/selsubj?user_id={{ result.user_id }}">View selected subjects</a>
 {% endif %}
 
 {% endblock %}

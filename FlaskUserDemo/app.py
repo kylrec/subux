@@ -2,7 +2,6 @@ import uuid, os, hashlib, pymysql
 from flask import Flask, request, render_template, redirect, url_for, session, abort, flash, jsonify
 app = Flask(__name__)
 
-#Register the setup page and import create_connection()
 from utils import create_connection, setup
 app.register_blueprint(setup)
 
@@ -115,9 +114,6 @@ def list_subjects():
 
 @app.route('/addsubj')
 def add_subject():
-    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']: 
-        flash("You don't have access.")
-        return redirect('/view?user_id=' + str(session['user_id']))
     with create_connection() as connection:
         with connection.cursor() as cursor:
             sql = """INSERT INTO users_subjects 
@@ -133,9 +129,6 @@ def add_subject():
 
 @app.route('/selsubj')
 def selected_subjects():
-    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']: 
-        flash("You don't have access.")
-        return redirect('/view?user_id=' + str(session['user_id']))
     with create_connection() as connection:
         with connection.cursor() as cursor:
             sql = """SELECT * FROM users
@@ -158,9 +151,6 @@ def selected_subjects():
 
 @app.route ('/delsubj')
 def delete_subject():
-    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']: 
-        flash("You don't have access.")
-        return redirect('/view?user_id=' + str(session['user_id']))
     with create_connection() as connection:
             with connection.cursor() as cursor:
                 sql = """DELETE FROM users_subjects WHERE subject_id = %s"""
