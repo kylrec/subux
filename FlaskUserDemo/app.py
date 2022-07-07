@@ -165,6 +165,28 @@ def selected_subjects():
             student = cursor.fetchone()
     return render_template('subjects_selected.html', result=result, student=student)
 
+@app.route('/viewsubj')
+def view_subjects():
+    with create_connection() as connection:
+        with connection.cursor() as cursor:
+            sql = """SELECT * FROM users
+                     JOIN users_subjects ON users_subjects.user_id = users.user_id
+                     JOIN subjects ON subjects.subject_id = users_subjects.subject_id
+                     WHERE subjects.subject_id = %s;"""
+            values = (
+                request.args['subject_id']
+                )
+            cursor.execute(sql, values)
+            result = cursor.fetchall()
+            sql = """SELECT * FROM subjects
+                     WHERE subjects.subject_id = %s"""
+            values = (
+                request.args['subject_id']
+                )
+            cursor.execute(sql, values)
+            subject = cursor.fetchone()
+    return render_template('subjects_view.html', result=result, subject=subject)
+
 @app.route ('/delsubj')
 def delete_subject():
     with create_connection() as connection:
