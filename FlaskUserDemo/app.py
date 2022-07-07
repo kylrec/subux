@@ -139,8 +139,12 @@ def add_subject():
                 session['user_id'],
                 request.args['subject_id']
             )
-            cursor.execute(sql, values)
-            connection.commit()
+            try:
+                cursor.execute(sql, values)
+                connection.commit()
+            except pymysql.err.IntegrityError:
+                    flash('You have already chosen this subject')
+                    return redirect('/subjects')
     return redirect ('/selsubj?user_id=' + str(session['user_id']))     
 
 @app.route('/selsubj')
