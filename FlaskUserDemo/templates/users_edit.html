@@ -5,7 +5,7 @@
 {% block content %}
 
 <form method="post" enctype="multipart/form-data">
-    <input type="hidden" name="user_id" value="{{ result.user_id }}">
+    <input name="user_id" value="{{ result.user_id }}" disabled>
     <input type="hidden" name="old_avatar" value="{{ result.avatar }}">
     <br>
     <label for="first_name">First Name:</label>

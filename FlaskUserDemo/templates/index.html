@@ -9,7 +9,7 @@
 <a href="{{ url_for('list_users') }}">View all users</a>
 <br>
 {% elif 'logged_in' in session %}
-<a href="{{ url_for('view_user', id=session['user_id']) }}">View your account</a>
+<a href="{{ url_for('view_user', user_id=session['user_id']) }}">View your account</a>
 <br>
 <a href="{{ url_for('list_subjects') }}">View all subjects</a>
 

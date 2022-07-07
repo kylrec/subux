@@ -98,7 +98,7 @@ def add_user():
 def list_users():
     if session['role'] != 'admin':
         return redirect('/')
-        flash("Only admin can access this page.")
+        flash("You don't have access to this page.")
     with create_connection() as connection:
         with connection.cursor() as cursor:
             cursor.execute("SELECT * FROM users")
@@ -115,6 +115,9 @@ def list_subjects():
 
 @app.route('/addsubj')
 def add_subject():
+    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']: 
+        flash("You don't have access.")
+        return redirect('/view?user_id=' + str(session['user_id']))
     with create_connection() as connection:
         with connection.cursor() as cursor:
             sql = """INSERT INTO users_subjects 
@@ -130,6 +133,9 @@ def add_subject():
 
 @app.route('/selsubj')
 def selected_subjects():
+    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']: 
+        flash("You don't have access.")
+        return redirect('/view?user_id=' + str(session['user_id']))
     with create_connection() as connection:
         with connection.cursor() as cursor:
             sql = """SELECT * FROM users
@@ -151,7 +157,10 @@ def selected_subjects():
     return render_template('subjects_selected.html', result=result, student=student)
 
 @app.route ('/delsubj')
-def delete_subjects():
+def delete_subject():
+    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']: 
+        flash("You don't have access.")
+        return redirect('/view?user_id=' + str(session['user_id']))
     with create_connection() as connection:
             with connection.cursor() as cursor:
                 sql = """DELETE FROM users_subjects WHERE subject_id = %s"""
@@ -164,24 +173,30 @@ def delete_subjects():
 def view_user():
     with create_connection() as connection:
         with connection.cursor() as cursor:
-            cursor.execute("""SELECT * FROM users WHERE user_id = %s""", request.args['id'])
+            cursor.execute("""SELECT * FROM users WHERE user_id = %s""", request.args['user_id'])
             result = cursor.fetchone()
     return render_template('users_view.html', result=result)
 
 
 @app.route('/delete')
 def delete_user():
+    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']: 
+        flash("You don't have persmission to delete this user")
+        return redirect('/view?user_id=' + str(session['user_id']))
     with create_connection() as connection:
             with connection.cursor() as cursor:
                 sql = """DELETE FROM users WHERE user_id = %s"""
-                values = (request.args['id'])
+                values = (request.args['user_id'])
                 cursor.execute(sql, values)
-                connection.commit()
-    return redirect ('/dashboard')
+                connection.commit
+    return redirect ('/')
 
 
 @app.route('/edit', methods=['GET', 'POST'])
 def edit_user():
+    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']: 
+        flash("You don't have persmission to edit this user")
+        return redirect('/view?user_id=' + str(session['user_id']))
     if request.method == 'POST':
         if request.files['avatar'].filename:
             avatar_image = request.files["avatar"]
@@ -216,7 +231,7 @@ def edit_user():
     else:
         with create_connection() as connection:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM users WHERE user_id = %s", request.args['id'])
+                cursor.execute("SELECT * FROM users WHERE user_id = %s", request.args['user_id'])
                 result = cursor.fetchone()
         return render_template('users_edit.html', result=result)
 
