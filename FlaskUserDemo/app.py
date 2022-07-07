@@ -5,6 +5,22 @@ app = Flask(__name__)
 from utils import create_connection, setup
 app.register_blueprint(setup)
 
+@app.before_request
+def restrict():
+    restricted_pages = [
+        'list_users',
+        'view_user',
+        'edit_user',
+        'delete_user',
+        'list_subjects',
+        'add_subject',
+        'selected_subjects',
+        'delete_subject'
+        ]
+    if 'logged_in' not in session and request.endpoint in restricted_pages:
+        flash("You are not logged in.")
+        return redirect('/login')
+
 @app.route('/')
 def home():
     return render_template("index.html") 
