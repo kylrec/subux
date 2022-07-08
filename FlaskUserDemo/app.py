@@ -132,13 +132,19 @@ def list_subjects():
 def add_subject():
     
     today = datetime.date.today()
-    deadline = datetime.date(2022, 7, 9)
+    enddate = datetime.date(2022, 7, 1)
+    startdate = datetime.date(2022, 7, 6)
 
     with create_connection() as connection:
         with connection.cursor() as cursor:
-            if today > deadline:
-                flash("Deadline")
+            if today > enddate:
+                flash("Subject selection ended on " + str(enddate) + ". Please visit the office if you haven't chosen your subjects.")
                 return redirect('/')
+
+            elif today < startdate:
+                flash("You can't select subjects until " + str(startdate))
+                return redirect('/')
+
             else:
                 sql = """SELECT subject_id FROM users_subjects
                          WHERE users_subjects.user_id = %s"""
@@ -221,7 +227,7 @@ def delete_subject():
                 cursor.execute(sql, values)
                 connection.commit()
     return redirect ('/selsubj?user_id=' + str(session['user_id']))
-   
+
 @app.route('/view')
 def view_user():
     with create_connection() as connection:
@@ -313,4 +319,4 @@ if __name__ == '__main__':
         PORT = int(os.environ.get('SERVER_PORT', '5555'))
     except ValueError:
         PORT = 5555
-    app.run(HOST, PORT, debug=True)
+    app.run(HOST, PORT, debug=True) 
