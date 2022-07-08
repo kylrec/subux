@@ -14,7 +14,9 @@
         <td><a href="/addsubj?subject_id={{row.subject_id}}">Select</a></td>
         <td>
             {% if session['role'] == 'admin' %}
-            <a href="/viewsubj?subject_id={{ row.subject_id }}">View students of subject</a>
+            <a href="/viewsubjusr?subject_id={{ row.subject_id }}">View students of subject</a>
+            <a href="/editsubj?subject_id={{ row.subject_id }}">Edit subject</a>
+            <a href="/delsubj?subject_id={{ row.subject_id }}" onclick="return confirm('Are you sure?')">Delete subject</a>
             {% endif %}
         </td>
     </tr>

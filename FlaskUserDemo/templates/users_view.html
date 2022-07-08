@@ -11,8 +11,8 @@
 <img src="{{ url_for('static', filename='images/' + (result.avatar or 'default.png')) }}" style=" height:200px;">
 
 <p>
-    <a href="/edit?user_id={{ result.user_id }}">Edit</a>
-    <a href="/delete?user_id={{ result.user_id }}" onclick="return confirm('Are you sure?')">Delete</a>
+    <a href="/editusr?user_id={{ result.user_id }}">Edit</a>
+    <a href="/delusr?user_id={{ result.user_id }}" onclick="return confirm('Are you sure?')">Delete</a>
 </p>
 {% if session['role'] == 'admin' %}
 <a href="{{ url_for('list_users') }}">View all users</a>

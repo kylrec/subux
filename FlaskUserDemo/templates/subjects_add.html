@@ -1,0 +1,16 @@
+{% extends '_layout.html' %}
+
+{% block title %}Add new subject{% endblock %}
+
+{% block content %}
+
+<p>Add a new subject</p>
+
+<form method="post">
+    <label for="subject_name">Subject Name:</label>
+    <input id="subject_name" name="subject_name">
+    <p id="message"></p>
+    <br>
+    <input type="submit" value="Add subject">
+</form>
+{% endblock %}
