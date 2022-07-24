@@ -30,7 +30,9 @@ def restrict():
     if 'logged_in' not in session and request.endpoint in restricted_pages:
         flash("You are not logged in.")
         return redirect('/login')
-    elif 'logged_in' in session and session['role'] != 'admin' and request.endpoint in admin_only:
+    elif ('logged_in' in session and
+            session['role'] != 'admin' and
+            request.endpoint in admin_only):
         flash("You do not have access to this page.")
         return redirect('/')
 
@@ -190,7 +192,8 @@ def add_subject():
 
 @app.route('/selsubj')
 def selected_subjects():
-    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']:
+    if (session['role'] != 'admin' and
+            str(session['user_id']) != request.args['user_id']):
         flash("You don't have persmission to view")
         return redirect('/viewusr?user_id=' + str(session['user_id']))
     with create_connection() as connection:
@@ -248,7 +251,6 @@ def delete_selected_subject():
     return redirect('/selsubj?user_id=' + str(session['user_id']))
 
 
-
 @app.route('/newsubj', methods=['GET', 'POST'])
 def new_subject():
     if request.method == 'POST':
@@ -301,7 +303,8 @@ def edit_subject():
     else:
         with create_connection() as connection:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM subjects WHERE subject_id = %s", request.args['subject_id'])
+                cursor.execute("SELECT * FROM subjects WHERE subject_id = %s",
+                               request.args['subject_id'])
                 result = cursor.fetchone()
         return render_template('subjects_edit.html', result=result)
 
@@ -310,14 +313,16 @@ def edit_subject():
 def view_user():
     with create_connection() as connection:
         with connection.cursor() as cursor:
-            cursor.execute("""SELECT * FROM users WHERE user_id = %s""", request.args['user_id'])
+            cursor.execute("""SELECT * FROM users WHERE user_id = %s""",
+                           request.args['user_id'])
             result = cursor.fetchone()
     return render_template('users_view.html', result=result)
 
 
 @app.route('/delusr')
 def delete_user():
-    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']:
+    if (session['role'] != 'admin' and
+            str(session['user_id']) != request.args['user_id']):
         flash("You don't have persmission to delete this user")
         return redirect('/viewusr?user_id=' + str(session['user_id']))
     with create_connection() as connection:
@@ -331,7 +336,8 @@ def delete_user():
 
 @app.route('/editusr', methods=['GET', 'POST'])
 def edit_user():
-    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']:
+    if (session['role'] != 'admin' and
+            str(session['user_id']) != request.args['user_id']):
         flash("You don't have persmission to edit this user")
         return redirect('/viewusr?user_id=' + str(session['user_id']))
     if request.method == 'POST':
@@ -368,7 +374,8 @@ def edit_user():
     else:
         with create_connection() as connection:
             with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM users WHERE user_id = %s", request.args['user_id'])
+                cursor.execute("SELECT * FROM users WHERE user_id = %s",
+                               request.args['user_id'])
                 result = cursor.fetchone()
         return render_template('users_edit.html', result=result)
 
