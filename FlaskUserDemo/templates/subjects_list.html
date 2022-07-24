@@ -29,6 +29,8 @@
 {% if session['role'] == 'user' %}
 <a href="{{ url_for('selected_subjects', user_id=session['user_id']) }}">View your selected subjects</a>
 {% elif session['role'] == 'admin' %}
+<a href="{{ url_for('new_subject') }}">Add new subject</a>
+<br>
 <a href="{{ url_for('list_users') }}">View all users</a>
 <br>
 {% endif %}
