@@ -151,8 +151,8 @@ def list_subjects():
 @app.route('/addsubj')
 def add_subject():
     today = datetime.date.today()
-    enddate = datetime.date(2022, 7, 24)
-    startdate = datetime.date(2022, 7, 4)
+    enddate = datetime.date(2022, 7, 25)
+    startdate = datetime.date(2022, 7, 24)
 
     with create_connection() as connection:
         with connection.cursor() as cursor:
@@ -160,7 +160,7 @@ def add_subject():
                 flash("Subject selection ended on " + str(enddate))
                 return redirect('/')
 
-            elif today < startdate:
+            elif today <= startdate:
                 flash("You can't select subjects until " + str(startdate))
                 return redirect('/')
 
