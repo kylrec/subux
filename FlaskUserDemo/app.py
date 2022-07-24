@@ -160,6 +160,10 @@ def add_subject():
                 flash("Subject selection ended on " + str(enddate))
                 return redirect('/')
 
+            elif today < startdate:
+                flash("You can't select subjects until " + str(startdate))
+                return redirect('/')
+
             else:
                 sql = """SELECT subject_id FROM users_subjects
                          WHERE users_subjects.user_id = %s"""
