@@ -5,13 +5,18 @@
 {% block content %}
 <a href="{{ url_for('add_user') }}">Sign Up</a>
 <br>
-{% if session['role'] == 'admin' %} 
-<a href="{{ url_for('list_users') }}">View all users</a>
-<br>
-{% elif 'logged_in' in session %}
-<a href="{{ url_for('view_user', user_id=session['user_id']) }}">View your account</a>
-<br>
+{% if 'logged_in' in session %}
 <a href="{{ url_for('list_subjects') }}">View all subjects</a>
+<br>
+    {% if session['role'] == 'admin' %}
+    <a href="{{ url_for('list_users') }}">View all users</a>
+    <br>
+
+    {% elif session['role'] == 'user' %}
+    <a href="{{ url_for('view_user', user_id=session['user_id']) }}">View your account</a>
+    <br>
+    <a href="{{ url_for('selected_subjects', user_id=session['user_id']) }}">View your selected subjects</a>
+    {% endif %}
 
 {% endif %}
 {% endblock %}

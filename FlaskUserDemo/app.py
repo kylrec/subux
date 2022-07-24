@@ -23,8 +23,6 @@ def restrict():
         ]
     admin_only = [
         'list_users',
-        'edit_user',
-        'delete_user',
         'new_subject',
         'delete_subject',
         'edit_subject'
@@ -152,17 +150,13 @@ def list_subjects():
 def add_subject():
 
     today = datetime.date.today()
-    enddate = datetime.date(2022, 7, 25)
+    enddate = datetime.date(2022, 7, 23)
     startdate = datetime.date(2022, 7, 4)
 
     with create_connection() as connection:
         with connection.cursor() as cursor:
             if today > enddate:
                 flash("Subject selection ended on " + str(enddate) + ". Please visit the office if you haven't chosen your subjects.")
-                return redirect('/')
-
-            elif today < startdate:
-                flash("You can't select subjects until " + str(startdate))
                 return redirect('/')
 
             else:

@@ -1,8 +1,11 @@
 {% extends '_layout.html' %}
 
-{% block title %}Sign Up{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block content %}
+
+<a href="{{ url_for('add_user') }}">Sign Up</a>
+
 <form method="post">
     <label for="email">Email:</label>
     <input id="email" name="email" type="email">

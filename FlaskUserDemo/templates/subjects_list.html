@@ -11,16 +11,26 @@
     {% for row in result %}
     <tr>
         <td>{{ row.subject_name }}</td>
+        {% if session['role'] == 'user' %}
         <td><a href="/addsubj?subject_id={{row.subject_id}}">Select</a></td>
+        {% elif session['role'] == 'admin' %}
         <td>
-            {% if session['role'] == 'admin' %}
             <a href="/viewsubjusr?subject_id={{ row.subject_id }}">View students of subject</a>
             <a href="/editsubj?subject_id={{ row.subject_id }}">Edit subject</a>
             <a href="/delsubj?subject_id={{ row.subject_id }}" onclick="return confirm('Are you sure?')">Delete subject</a>
-            {% endif %}
         </td>
     </tr>
+    {% endif %}
     {% endfor %}
 </table>
+
+<a href="{{ url_for('home') }}">Back to home</a>
+<br>
+{% if session['role'] == 'user' %}
+<a href="{{ url_for('selected_subjects', user_id=session['user_id']) }}">View your selected subjects</a>
+{% elif session['role'] == 'admin' %}
+<a href="{{ url_for('list_users') }}">View all users</a>
+<br>
+{% endif %}
 {% endblock %}
 

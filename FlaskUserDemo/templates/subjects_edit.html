@@ -1,6 +1,6 @@
 {% extends '_layout.html'%}
 
-{% block title %} Edit profile {% endblock %}
+{% block title %} Edit subject {% endblock %}
 
 {% block content %}
 
@@ -8,6 +8,7 @@
     <input type="hidden" name="subject_id" value="{{ result.subject_id }}">
     <label for="subject_name">Subject Name</label>
     <input id="subject_name" name="subject_name" type="text" value="{{ result.subject_name }}">
+    <br>
     <input type="submit" value="Edit subject">
 </form>
 {% endblock %}
