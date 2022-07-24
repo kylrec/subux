@@ -148,15 +148,14 @@ def list_subjects():
 
 @app.route('/addsubj')
 def add_subject():
-
     today = datetime.date.today()
-    enddate = datetime.date(2022, 7, 23)
+    enddate = datetime.date(2022, 7, 24)
     startdate = datetime.date(2022, 7, 4)
 
     with create_connection() as connection:
         with connection.cursor() as cursor:
             if today > enddate:
-                flash("Subject selection ended on " + str(enddate) + ". Please visit the office if you haven't chosen your subjects.")
+                flash("Subject selection ended on " + str(enddate))
                 return redirect('/')
 
             else:
@@ -191,6 +190,9 @@ def add_subject():
 
 @app.route('/selsubj')
 def selected_subjects():
+    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']:
+        flash("You don't have persmission to view")
+        return redirect('/viewusr?user_id=' + str(session['user_id']))
     with create_connection() as connection:
         with connection.cursor() as cursor:
             sql = """SELECT * FROM users
@@ -315,9 +317,9 @@ def view_user():
 
 @app.route('/delusr')
 def delete_user():
-    #if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']:
-    #    flash("You don't have persmission to delete this user")
-    #    return redirect('/viewusr?user_id=' + str(session['user_id']))
+    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']:
+        flash("You don't have persmission to delete this user")
+        return redirect('/viewusr?user_id=' + str(session['user_id']))
     with create_connection() as connection:
         with connection.cursor() as cursor:
             sql = """DELETE FROM users WHERE user_id = %s"""
@@ -329,6 +331,9 @@ def delete_user():
 
 @app.route('/editusr', methods=['GET', 'POST'])
 def edit_user():
+    if session['role'] != 'admin' and str(session['user_id']) != request.args['user_id']:
+        flash("You don't have persmission to edit this user")
+        return redirect('/viewusr?user_id=' + str(session['user_id']))
     if request.method == 'POST':
         if request.files['avatar'].filename:
             avatar_image = request.files["avatar"]
