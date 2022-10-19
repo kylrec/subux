@@ -5,7 +5,7 @@ app = Flask(__name__)
 from utils import create_connection, setup
 app.register_blueprint(setup)
 
-
+# restrict all pages if not logged in
 @app.before_request
 def restrict():
     restricted_pages = [
@@ -41,7 +41,7 @@ def restrict():
 def home():
     return render_template("index.html")
 
-
+# login route 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -76,7 +76,7 @@ def logout():
     session.clear()
     return redirect('/')
 
-
+# Register user 
 @app.route('/register', methods=['GET', 'POST'])
 def add_user():
     if request.method == 'POST':
@@ -113,6 +113,7 @@ def add_user():
                     flash('Email has already been taken.')
                     return redirect('/register')
 
+                # logs in the user after they sign up and takes tehm to home
                 sql = "SELECT * FROM users WHERE email = %s AND password = %s"
                 values = (
                     request.form['email'],
@@ -120,6 +121,7 @@ def add_user():
                 )
                 cursor.execute(sql, values)
                 result = cursor.fetchone()
+
             if result:
                 session['logged_in'] = True
                 session['first_name'] = result['first_name']
@@ -129,7 +131,7 @@ def add_user():
 
     return render_template('users_add.html')
 
-
+# View all users
 @app.route('/dashboard')
 def list_users():
     with create_connection() as connection:
@@ -138,7 +140,7 @@ def list_users():
             result = cursor.fetchall()
     return render_template('users_list.html', result=result)
 
-
+# View all subjects
 @app.route('/subjects')
 def list_subjects():
     with create_connection() as connection:
@@ -147,7 +149,7 @@ def list_subjects():
             result = cursor.fetchall()
     return render_template('subjects_list.html', result=result)
 
-
+# User selects a subject
 @app.route('/addsubj')
 def add_subject():
     today = datetime.date.today()
@@ -193,7 +195,7 @@ def add_subject():
                     return redirect('/subjects')
     return redirect('/selsubj?user_id=' + str(session['user_id']))
 
-
+# View user's selected subjects
 @app.route('/selsubj')
 def selected_subjects():
     if (session['role'] != 'admin' and
@@ -220,7 +222,7 @@ def selected_subjects():
             student = cursor.fetchone()
     return render_template('subjects_selected.html', result=result, student=student)
 
-
+# View a subject with the users who chose the subject
 @app.route('/viewsubjusr')
 def view_subjects_users():
     with create_connection() as connection:
@@ -243,7 +245,7 @@ def view_subjects_users():
             subject = cursor.fetchone()
     return render_template('subjects_view.html', result=result, subject=subject)
 
-
+# User deletes a selected subject
 @app.route('/delselsubj')
 def delete_selected_subject():
     with create_connection() as connection:
@@ -254,7 +256,7 @@ def delete_selected_subject():
             connection.commit()
     return redirect('/selsubj?user_id=' + str(session['user_id']))
 
-
+# Add a new subject to the list of subjects
 @app.route('/newsubj', methods=['GET', 'POST'])
 def new_subject():
     if request.method == 'POST':
@@ -276,7 +278,7 @@ def new_subject():
         return redirect('/subjects')
     return render_template('subjects_add.html')
 
-
+# Delete subject from the list of all sbubjects
 @app.route('/delsubj')
 def delete_subject():
     with create_connection() as connection:
@@ -287,7 +289,7 @@ def delete_subject():
             connection.commit()
     return redirect('/subjects')
 
-
+# Edit subject from list of all subjects
 @app.route('/editsubj', methods=['GET', 'POST'])
 def edit_subject():
     if request.method == 'POST':
@@ -312,7 +314,7 @@ def edit_subject():
                 result = cursor.fetchone()
         return render_template('subjects_edit.html', result=result)
 
-
+# View user's profile
 @app.route('/viewusr')
 def view_user():
     with create_connection() as connection:
@@ -322,7 +324,7 @@ def view_user():
             result = cursor.fetchone()
     return render_template('users_view.html', result=result)
 
-
+# Delete user's account
 @app.route('/delusr')
 def delete_user():
     if (session['role'] != 'admin' and
@@ -337,7 +339,7 @@ def delete_user():
             connection.commit()
     return redirect('/')
 
-
+# Edit user's profile
 @app.route('/editusr', methods=['GET', 'POST'])
 def edit_user():
     if (session['role'] != 'admin' and
@@ -383,7 +385,7 @@ def edit_user():
                 result = cursor.fetchone()
         return render_template('users_edit.html', result=result)
 
-
+# Check if email is taken
 @app.route('/checkemail')
 def check_email():
     with create_connection() as connection:
