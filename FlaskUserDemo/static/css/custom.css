@@ -1,0 +1,22 @@
+th, td {
+    border: 1px solid black;
+    text-align: left;
+}
+
+form, label, input {
+    margin: 10px;
+}
+
+img {
+    border-radius: 50%;
+    object-fit: cover;
+    aspect-ratio: 1;
+    width: 200px;
+    height: 200px;
+}
+
+* {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
