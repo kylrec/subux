@@ -3,8 +3,12 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-<div class="container col-sm-3">
+<div class="container col-sm-2">
     <form method="post" enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <h1>Sign up</h1>
+        </div>
 
         <div class="mb-3">
             <input id="first_name" name="first_name" class="form-control" placeholder="First name">
@@ -28,8 +32,10 @@
             <input id="pic" name="avatar" type="file" accept="image/*" class="form-control">
         </div>
 
-        <input type="submit" value="Sign Up">
+        <input type="submit" value="Sign Up" class="btn btn-primary btn-block mb-4">
     </form>
+
+    <p>Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
 </div>
 <script>
     let emailInput = document.querySelector("#email");
