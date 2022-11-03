@@ -19,8 +19,8 @@
             <a href="/editsubj?subject_id={{ row.subject_id }}">Edit subject</a>
             <a href="/delsubj?subject_id={{ row.subject_id }}" onclick="return confirm('Are you sure?')">Delete subject</a>
         </td>
+        {% endif %}
     </tr>
-    {% endif %}
     {% endfor %}
 </table>
 

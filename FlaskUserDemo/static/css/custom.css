@@ -1,7 +1,15 @@
 th, td {
     border: 1px solid black;
-    text-align: left;
+    text-align: center;
 }
+
+tr {
+    background-color: ivory;
+}
+
+    tr:nth-last-child(2n) {
+        background-color: #a7c4b0;
+    }
 
 form, label, input {
     margin: 10px;
@@ -10,13 +18,23 @@ form, label, input {
 * {
     font-family: 'Yanone Kaffeesatz', sans-serif;
     font-size: 20px;
-    text-align: center;
+
 }
 
-div.login {
+.login, .signup {
     margin-top: 50px;
     border-style: solid;
     border-radius: 10px;
-    border-color: cadetblue;
+    border-color:gainsboro;
     padding-top: 30px;
+    text-align: center;
+    box-shadow: 5px 10px 18px black;
+}
+
+table {
+    width: 100%;
+}
+
+.content {
+padding-top: 80px;
 }
