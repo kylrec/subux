@@ -4,8 +4,10 @@
 
 {% block content %}
 
+<h1>Edit a subject</h1>
+
 <div class=" edit container col-sm-3">
-    <form method="post"">
+    <form method="post">
     <input type="hidden" name="subject_id" value="{{ result.subject_id }}">
     <label for="subject_name">Subject Name</label>
     <input id="subject_name" name="subject_name" type="text" value="{{ result.subject_name }}">

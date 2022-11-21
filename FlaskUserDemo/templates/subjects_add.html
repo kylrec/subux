@@ -4,12 +4,13 @@
 
 {% block content %}
 
-<p>Add a new subject</p>
+<h1>Add a new subject</h1>
 
-<form method="post">
-    <label for="subject_name">Subject Name:</label>
-    <input id="subject_name" name="subject_name">
-    <br>
-    <input type="submit" value="Add subject">
-</form>
+<div class=" edit container col-sm-3">
+    <form method="post">
+        <label for="subject_name">Subject Name:</label>
+        <input id="subject_name" name="subject_name">
+        <input type="submit" value="Add subject"  class="btn btn-primary btn-block mb-4">
+    </form>
+</div>
 {% endblock %}

@@ -6,6 +6,12 @@
 
 <h1>Users</h1>
 
+{% if session['role'] == 'admin' %}
+<div class="add container">
+    <a class="btn btn-info" href="{{ url_for('add_user') }}" role="button">Add a new user</a>
+</div>
+{% endif %}
+
 <table>
     <tr>
         <th>First name</th>

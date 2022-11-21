@@ -6,6 +6,12 @@
 
 <h1>Subjects</h1>
 
+{% if session['role'] == 'admin' %}
+<div class="add container">
+<a class="btn btn-info" href="{{ url_for('new_subject') }}" role="button">Add a new subject</a>
+</div>
+{% endif %}
+
 <table>
     <tr>
         <th>Subject</th>
@@ -14,13 +20,13 @@
     {% for row in result %}
     <tr>
         <td class="subject_name">{{ row.subject_name }}</td>
-        {% if session['role'] == 'user' %}
         <td>
             <ul class="description">
                 <li>{{ row.subject_description_1 }}</li>
                 <li>{{ row.subject_description_2 }}</li>
             </ul>
         </td>
+        {% if session['role'] == 'user' %}
         <td>
             <a class="btn btn-success" href="/addsubj?subject_id={{row.subject_id}}" role="button">Select</a>
         </td>
