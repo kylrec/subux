@@ -175,7 +175,7 @@ def add_subject():
                 subject_list = cursor.fetchall()
                 [i['subject_id'] for i in subject_list]
                 count = int(len(subject_list))
-                if count < 5:
+                if count < 6:
                     sql = """INSERT INTO users_subjects
                             (user_id, subject_id)
                             VALUES (%s, %s)"""
