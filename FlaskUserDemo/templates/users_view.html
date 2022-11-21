@@ -9,7 +9,7 @@
 
     <p><a href="mailto:{{ result.email }}">{{ result.email }}</a></p>
 
-    <img src="{{ url_for('static', filename='images/' + (result.avatar or 'default.png')) }}" style=" height:200px;">
+    <img src="{{ url_for('static', filename='images/' + (result.avatar or 'default.png')) }}" style=" height:200px;" alt="Profile picture">
 </div>
 <div class=" user container-fluid">
     <div class="btn-group">

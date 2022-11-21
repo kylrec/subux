@@ -20,12 +20,14 @@
     {% for row in result %}
     <tr>
         <td class="subject_name">{{ row.subject_name }}</td>
+        {% if 'logged_in' not in session and session['role'] == admin %}
         <td>
             <ul class="description">
                 <li>{{ row.subject_description_1 }}</li>
                 <li>{{ row.subject_description_2 }}</li>
             </ul>
         </td>
+        {% endif %}
         {% if session['role'] == 'user' %}
         <td>
             <a class="btn btn-success" href="/addsubj?subject_id={{row.subject_id}}" role="button">Select</a>
