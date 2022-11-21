@@ -1,8 +1,11 @@
 {% extends '_layout.html' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Users Dashboard{% endblock %}
 
 {% block content %}
+
+<h1>Users</h1>
+
 <table>
     <tr>
         <th>First name</th>
@@ -16,18 +19,14 @@
         <td>{{ row.last_name }}</td>
         <td>{{ row.email }}</td>
         <td>
-            <a href="/viewusr?user_id={{ row.user_id }}">View user</a>
-            <a href="/editusr?user_id={{ row.user_id }}">Edit user</a>
-            <a href="/delusr?user_id={{ row.user_id }}" onclick="return confirm('Are you sure?')">Delete user</a>
+            <a class="btn btn-primary" href="/viewusr?user_id={{ row.user_id }}" role="button">View user</a>
+            <a class="btn btn-warning" href="/editusr?user_id={{ row.user_id }}" role="button">Edit user</a>
+            <a class="btn btn-danger" href="/delusr?user_id={{ row.user_id }}" role="button" onclick="return confirm('Are you sure?')">Delete user</a>
         </td>
         <td>
-            <a href="/selsubj?user_id={{ row.user_id }}">View selected subjects</a>
+            <a class="btn btn-success" href="/selsubj?user_id={{ row.user_id }}" role="button">View selected subjects</a>
         </td>
     </tr>
     {% endfor %}
 </table>
-<a href="{{ url_for('add_user') }}">Add a new user</a>
-<br>
-<a href="{{ url_for('home') }}">Back to home</a>
-
 {% endblock %}

@@ -1,23 +1,40 @@
-{% extends '_layout.html' %}
+﻿{% extends '_layout.html' %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<a href="{{ url_for('add_user') }}">Sign Up</a>
-<a href="{{ url_for('login') }}">Login</a>
-<br>
-{% if 'logged_in' in session %}
-<a href="{{ url_for('list_subjects') }}">View all subjects</a>
-<br>
-    {% if session['role'] == 'admin' %}
-    <a href="{{ url_for('list_users') }}">View all users</a>
-    <br>
 
-    {% elif session['role'] == 'user' %}
-    <a href="{{ url_for('view_user', user_id=session['user_id']) }}">View your account</a>
-    <br>
-    <a href="{{ url_for('selected_subjects', user_id=session['user_id']) }}">View your selected subjects</a>
-    {% endif %}
+<h2>Year 11 Subject Options Guide</h2>
 
-{% endif %}
+<div class="index container-fluid">
+    <div class="col-sm-8">
+        <h5>Option Choices</h5>
+        <p>At year 11 students will study six subjects. The following subjects are <u>compulsory</u>:</p>
+        <ul>
+            <li>English</li>
+            <li>Mathematics</li>
+            <li>Science</li>
+        </ul>
+        <p>Students will choose three more subjects.</p>
+        <p>To attain NCEA Level 1, students will need 80 credits across their five subjects.</p>
+    </div>
+
+    <div class="col-sm-8">
+        <h5>Understanding NCEA</h5>
+        <u>Requirements</u>
+        <p>80+ credits at NCEA levels 1, 2, or 3 Literacy (10 credits from any subject that count towards literacy) Numeracy (10 credits from any subject that count towards numeracy)</p>
+        <p>Note: the 10 literacy and 10 numeracy credits are included in the 80+ credits needed to achieve NCEA level 1.</p>
+    </div>
+    <div class="col-sm-8">
+        <h5>Career Advisors</h5>
+        <ul>
+            <li>Mrs Fa'amalepe</li>
+            <li>Mrs Corlett</li>
+            <li>Miss O'Neill  (Acting Head of Department)</li>
+        </ul>
+    </div>
+    <div class="flch">
+        <a href="https://drive.google.com/file/d/1ZFHGSohl9yzGBocvDb68jAhoSchFsI8K/view">View the 2023 Subject Flow Chart</a>
+    </div>
+</div>
 {% endblock %}

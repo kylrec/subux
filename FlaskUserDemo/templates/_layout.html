@@ -5,48 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@300&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">\<link href="//fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900,300italic,400italic|Montserrat:100,200,300,400,500,600,700,800,900,300italic,400italic|Raleway:100,200,300,400,500,600,700,800,900,300italic,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm bg-light fixed-top">
-
+    <nav class="navbar navbar-expand-md fixed-top">
         <div class="container-fluid">
-            <!-- Links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link 3</a>
-                </li>
-            </ul>
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='images/' + ('logo.png')) }}" height="45" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                    <span class="navbar-toggler-icon justify-content-start"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="nav navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('list_subjects') }}"> Subjects</a>
+                    </li>
+                    {% if 'logged_in' in session %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('view_user', user_id=session['user_id']) }}">My Account</a>
+                    </li>
+                    {% if session['role'] == 'user' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('selected_subjects', user_id=session['user_id']) }}"> My Selected Subjects</a>
+                    </li>
+                    {% elif session['role'] == 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('list_users') }}">Users</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <span class="navbar-text justify-content-end">
+                    You are logged in as {{ session.first_name }}
+                </span>
+                <ul class="navbar-nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Log out</a>
+                        {% else %}
+                        <a class="nav-link" href="{{ url_for('login') }}">Log in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('add_user') }}">Sign up</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </nav>
 
     <div class="content">
+        <ul>
+            {% for message in get_flashed_messages() %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
         <div class="container-fluid">
-            {% if 'logged_in' in session %}
-            You are logged in as {{ session.first_name }}
-            <a href="/logout">Log out</a>
-            {% else %}
-            <<a href="/login">Log in</a>
-            {% endif %}
-        </div>
-        <div class="container-fluid">
-        {% block content %}
-        {% endblock %}
+            {% block content %}
+            {% endblock %}
         </div>
     </div>
-
-    <ul>
-        {% for message in get_flashed_messages() %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
 
 </body>
 </html>

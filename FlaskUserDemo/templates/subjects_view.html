@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h1>{{subject.subject_name}}'s Students</h1>
+<h1>{{subject.subject_name}} Students</h1>
 
 <table>
     <tr>
@@ -18,10 +18,5 @@
     </tr>
     {% endfor %}
 </table>
-<a href="{{ url_for('list_subjects') }}">View all subjects</a>
-<br>
-<a href="{{ url_for('list_users') }}">View all users</a>
-<br>
-<a href="{{ url_for('home') }}">Back to home</a>
 
 {% endblock %}

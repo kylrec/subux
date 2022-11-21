@@ -1,10 +1,10 @@
 {% extends '_layout.html' %}
 
-{% block title %} Selected Subjects {% endblock %}
+{% block title %} My Selected Subjects {% endblock %}
 
 {% block content %}
 
-<h1>{{student.first_name}}'s Selected subjects</h1>
+<h1>{{student.first_name}}'s Selected Subjects</h1>
 
 <table>
     <tr>
@@ -12,15 +12,11 @@
     </tr>
     {% for row in result %}
     <tr>
-        <td>{{ row.subject_name }}</td>
+        <td class="subject_name">{{ row.subject_name }}</td>
         <td>
-            <a href="/delselsubj?subject_id={{ row.subject_id }}" onclick="return confirm('Are you sure?')">Delete</a>
+            <a class="btn btn-danger" href="/delselsubj?subject_id={{ row.subject_id }}" role="button" onclick="return confirm('Are you sure?')">Remove</a>
         </td>  
     </tr>
     {% endfor %}
 </table>
-
-<a href="{{ url_for('list_subjects') }}">View all subjects</a>
-<br>
-<a href="{{ url_for('home') }}">Back to home</a>
 {% endblock %}

@@ -4,35 +4,36 @@
 
 {% block content %}
 
+<h1>Subjects</h1>
+
 <table>
     <tr>
         <th>Subject</th>
+        <th>About</th>
     </tr>
     {% for row in result %}
     <tr>
-        <td>{{ row.subject_name }}</td>
+        <td class="subject_name">{{ row.subject_name }}</td>
         {% if session['role'] == 'user' %}
-        <td><a href="/addsubj?subject_id={{row.subject_id}}">Select</a></td>
+        <td>
+            <ul class="description">
+                <li>{{ row.subject_description_1 }}</li>
+                <li>{{ row.subject_description_2 }}</li>
+            </ul>
+        </td>
+        <td>
+            <a class="btn btn-success" href="/addsubj?subject_id={{row.subject_id}}" role="button">Select</a>
+        </td>
         {% elif session['role'] == 'admin' %}
         <td>
-            <a href="/viewsubjusr?subject_id={{ row.subject_id }}">View students of subject</a>
-            <a href="/editsubj?subject_id={{ row.subject_id }}">Edit subject</a>
-            <a href="/delsubj?subject_id={{ row.subject_id }}" onclick="return confirm('Are you sure?')">Delete subject</a>
+            <a class="btn btn-success" href="/viewsubjusr?subject_id={{ row.subject_id }}" role="button">View students of subject</a>
+            <a class="btn btn-warning" href="/editsubj?subject_id={{ row.subject_id }}" role="button">Edit subject</a>
+            <a class="btn btn-danger" href="/delsubj?subject_id={{ row.subject_id }}" role="button" onclick="return confirm('Are you sure?')">Delete subject</a>
         </td>
         {% endif %}
     </tr>
     {% endfor %}
 </table>
 
-<a href="{{ url_for('home') }}">Back to home</a>
-<br>
-{% if session['role'] == 'user' %}
-<a href="{{ url_for('selected_subjects', user_id=session['user_id']) }}">View your selected subjects</a>
-{% elif session['role'] == 'admin' %}
-<a href="{{ url_for('new_subject') }}">Add new subject</a>
-<br>
-<a href="{{ url_for('list_users') }}">View all users</a>
-<br>
-{% endif %}
 {% endblock %}
 

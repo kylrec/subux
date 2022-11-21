@@ -13,7 +13,6 @@ def restrict():
         'view_user',
         'edit_user',
         'delete_user',
-        'list_subjects',
         'add_subject',
         'selected_subjects',
         'delete_selected_subject',
@@ -153,7 +152,7 @@ def list_subjects():
 @app.route('/addsubj')
 def add_subject():
     today = datetime.date.today()
-    enddate = datetime.date(2022, 7, 25)
+    enddate = datetime.date(2022, 11, 22)
     startdate = datetime.date(2022, 7, 24)
 
     with create_connection() as connection:

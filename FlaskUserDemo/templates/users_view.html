@@ -4,22 +4,22 @@
 
 {% block content %}
 
-<h1>{{ result.first_name }} {{ result.last_name }}</h1>
+<div class=" user container-fluid">
+    <h1>{{ result.first_name }} {{ result.last_name }}</h1>
 
-<p><a href="mailto:{{ result.email }}">{{ result.email }}</a></p>
+    <p><a href="mailto:{{ result.email }}">{{ result.email }}</a></p>
 
-<img src="{{ url_for('static', filename='images/' + (result.avatar or 'default.png')) }}" style=" height:200px;">
+    <img src="{{ url_for('static', filename='images/' + (result.avatar or 'default.png')) }}" style=" height:200px;">
+</div>
+<div class=" user container-fluid">
+    <div class="btn-group">
+        <a class="btn btn-warning" href="/editusr?user_id={{ result.user_id }}" role="button">Edit account</a>
+        <a class="btn btn-danger" href="/delusr?user_id={{ result.user_id }}" role="button" onclick="return confirm('Are you sure?')">Delete account</a>
+        {% if session['role'] == 'user' %}
+        <a class="btn btn-success" href="/selsubj?user_id={{ result.user_id }}" role="button">View selected subjects</a>
+        {% endif %}
+    </div>
+</div>
 
-<p>
-    <a href="/editusr?user_id={{ result.user_id }}">Edit</a>
-    <a href="/delusr?user_id={{ result.user_id }}" onclick="return confirm('Are you sure?')">Delete</a>
-</p>
-{% if session['role'] == 'admin' %}
-<a href="{{ url_for('list_users') }}">View all users</a>
-{% elif 'logged_in' in session %}
-<a href="{{ url_for('home') }}">Back to home</a>
-<br>
-<a href="/selsubj?user_id={{ result.user_id }}">View selected subjects</a>
-{% endif %}
 
 {% endblock %}
